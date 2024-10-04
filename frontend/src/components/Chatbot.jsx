@@ -18,8 +18,8 @@ const ChatComponent = () => {
     setLoading(true);
     try {
         // Make a POST request to the backend
-        const response = await axios.post('http://localhost:3000/api/chat', {
-            userMessage,
+        const response = await axios.post('https://wisdomwave-gemini-powered-chatbot.onrender.com/api/chat', {
+          userMessage,
         });
 
         // Add both the user's message and the AI's response to the chat history
