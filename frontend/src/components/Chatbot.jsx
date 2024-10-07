@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { FiSend } from 'react-icons/fi';
 import { FaRobot } from 'react-icons/fa';
-import ReactMarkdown from 'react-markdown'; // Import react-markdown
+import ReactMarkdown from 'react-markdown';
 
 const ChatComponent = () => {
   const [userMessage, setUserMessage] = useState('');
@@ -12,35 +12,29 @@ const ChatComponent = () => {
   const sendMessage = async () => {
     if (!userMessage.trim()) return;
 
-    // Create a temporary message to hold the user's message
     const newMessage = { role: 'user', text: userMessage };
 
     setLoading(true);
     try {
-        // Make a POST request to the backend
         const response = await axios.post('https://wisdomwave-gemini-powered-chatbot.onrender.com/api/chat', {
           userMessage,
         });
 
-        // Add both the user's message and the AI's response to the chat history
         const botResponse = {
             role: 'StudyBot',
-            text: response.data.response, // Assuming this response is in Markdown format
+            text: response.data.response,
             aiResponse: response.data.aiResponse,
         };
 
-        // Combine the user's message and the bot's response into chat history
         setChatHistory((prevHistory) => [...prevHistory, newMessage, botResponse]);
     } catch (error) {
         console.error('Error sending message:', error);
     } finally {
         setLoading(false);
-        setUserMessage(''); // Clear the input field
+        setUserMessage('');
     }
-};
+  };
 
-
-  // Handle the key press event
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       sendMessage();
@@ -48,9 +42,9 @@ const ChatComponent = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-900 text-white p-6">
+    <div className="flex flex-col lg:flex-row h-screen bg-gray-900 text-white p-6">
       {/* Sidebar for Chat History */}
-      <div className="w-1/4 bg-gray-800 rounded-lg shadow-lg p-4 mr-4 overflow-y-auto">
+      <div className="hidden lg:block w-full lg:w-1/4 bg-gray-800 rounded-lg shadow-lg p-4 mr-0 lg:mr-4 mb-4 lg:mb-0 overflow-y-auto transition-all duration-300 ease-in-out">
         <h2 className="text-xl font-semibold mb-4">Chat History</h2>
         {chatHistory.map((message, index) => (
           <div key={index} className={`mb-2 ${message.role === 'user' ? 'text-right' : 'text-left'} ${message.role === 'user' ? 'text-blue-500' : 'text-gray-300'}`}>
@@ -65,7 +59,7 @@ const ChatComponent = () => {
       {/* Main Chat Area */}
       <div className="flex-1 bg-gray-800 rounded-lg shadow-lg p-4 flex flex-col">
         {/* Header */}
-        <div className="w-full mb-4 flex items-center">
+        <div className="w-full mb-4 flex items-center justify-center lg:justify-start">
           <FaRobot className="text-3xl text-blue-500 mr-2" />
           <h1 className="text-2xl font-semibold text-center">Hello, How can I help you today?</h1>
         </div>
@@ -92,7 +86,7 @@ const ChatComponent = () => {
             type="text"
             value={userMessage}
             onChange={(e) => setUserMessage(e.target.value)}
-            onKeyDown={handleKeyPress} // Add keydown event
+            onKeyDown={handleKeyPress}
             placeholder="Type your message here..."
             className="flex-1 p-3 border border-gray-700 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
