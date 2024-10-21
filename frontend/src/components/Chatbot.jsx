@@ -16,7 +16,7 @@ const ChatComponent = () => {
 
     setLoading(true);
     try {
-        const response = await axios.post('https://wisdomwave-gemini-powered-chatbot.onrender.com/api/chat', {
+        const response = await axios.post('https://wisdomwave-student-chatbot.vercel.app/api/chat', {
           userMessage,
         });
 
@@ -45,9 +45,9 @@ const ChatComponent = () => {
     <div className="flex flex-col lg:flex-row h-screen bg-gray-900 text-white p-6">
       {/* Sidebar for Chat History */}
       <div className="hidden lg:block w-full lg:w-1/4 bg-gray-800 rounded-lg shadow-lg p-4 mr-0 lg:mr-4 mb-4 lg:mb-0 overflow-y-auto transition-all duration-300 ease-in-out">
-        <h2 className="text-xl font-semibold mb-4">Chat History</h2>
+        <h2 className="text-xl bg-blue-500 rounded-full p-4 font-semibold mb-4">Chat History</h2>
         {chatHistory.map((message, index) => (
-          <div key={index} className={`mb-2 ${message.role === 'user' ? 'text-right' : 'text-left'} ${message.role === 'user' ? 'text-blue-500' : 'text-gray-300'}`}>
+          <div key={index} className={`mb-2 bg-gray-600 p-2 rounded-2xl ${message.role === 'user' ? 'text-right' : 'text-left'} ${message.role === 'user' ? 'text-blue-400' : 'text-gray-300'}`}>
             <p>
               {message.role === 'user' ? 'You: ' : 'StudyBot: '}
               {message.text}
@@ -68,7 +68,7 @@ const ChatComponent = () => {
         <div className="flex-1 w-full overflow-y-auto mb-4">
           {chatHistory.map((message, index) => (
             <div key={index} className={`mb-4 flex w-full ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`p-4 rounded-lg max-w-lg ${message.role === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-600 text-gray-200'} `}>
+              <div className={`p-4 rounded-2xl max-w-lg ${message.role === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-600 text-gray-200'} `}>
                 <p>{message.text}</p>
                 {message.aiResponse && (
                   <div className="mt-2 text-sm text-gray-300">
